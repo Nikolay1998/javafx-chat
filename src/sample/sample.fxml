@@ -24,5 +24,5 @@
       <Button fx:id="create" mnemonicParsing="false" onAction="#createAction" text="Create" GridPane.rowIndex="1" />
       <TextField fx:id="cc" GridPane.rowIndex="2" />
    <TextArea fx:id="msgViewer" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="6" />
-   <Button fx:id="refrLog" mnemonicParsing="false" onAction="#refrashLog" text="Button" GridPane.rowIndex="7" />
+   <Button fx:id="refrLog" mnemonicParsing="false" onAction="#refreshMsg" text="Button" GridPane.rowIndex="7" />
 </GridPane>

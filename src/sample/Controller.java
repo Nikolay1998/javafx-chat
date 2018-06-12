@@ -20,23 +20,23 @@ public class Controller {
 
     public static String log = "";
 
-
-    public void createAction(ActionEvent actionEvent) throws IOException, InterruptedException {
+    public void createAction(ActionEvent actionEvent) throws IOException {
         int port = 2005;
         ServerSocket server = new ServerSocket(port);
-        System.out.println("Enter numbers of clients: ");
+        //System.out.println("Enter numbers of clients: ");
         byte[] count = cc.getText().getBytes();
+        Semaphore sem = new Semaphore(3, true);
         for(int i = 0; i < count[0]-48; i++){
-            System.out.println("Launch client...");
             Runtime.getRuntime().exec("java -jar " +
                     "C:\\Users\\User\\IdeaProjects\\ClientFX\\out\\artifacts\\ClientFX\\ClientFX.jar");
-            new Thread(new MonoThreadClientHandler(server.accept())).start();
+            new Thread(new MonoThreadClientHandler(server.accept(), this, sem)).start();
         }
         create.setDisable(true);
         cc.setDisable(true);
     }
 
-    public void refrashLog(ActionEvent event) {
+    public void refreshMsg(ActionEvent event) {
         msgViewer.setText(log);
     }
+
 }
