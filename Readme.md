@@ -12,3 +12,5 @@ Then start Server JavaFX application:
 mvn javafx:run
 ```
 After creation clients will be asked for password. Password is ```ssau```.
+
+2018.
