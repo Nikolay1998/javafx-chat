@@ -1,4 +1,4 @@
-package sample;
+package server;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -7,6 +7,7 @@ import java.net.Socket;
 import java.util.concurrent.Semaphore;
 
 public class MonoThreadClientHandler implements Runnable {
+
     private static int refreshTimeout = 1000;
     private Controller controller;
     public Semaphore sem;
@@ -15,28 +16,27 @@ public class MonoThreadClientHandler implements Runnable {
     private boolean isQuit = false;
 
 
-    public MonoThreadClientHandler(Socket client, Controller controller, Semaphore sem){
+    public MonoThreadClientHandler(Socket client, Controller controller, Semaphore sem) {
         this.client = client;
         this.controller = controller;
         this.sem = sem;
     }
 
     public void run() {
-        try{
+        try {
             DataOutputStream out = new DataOutputStream(client.getOutputStream());
             DataInputStream in = new DataInputStream(client.getInputStream());
             sem.acquire();
             out.writeBoolean(true);
             String password = "";
-            while(!client.isClosed() && !isRightPasswordGet){
+            while (!client.isClosed() && !isRightPasswordGet) {
                 password = in.readUTF();
-                if(password.equalsIgnoreCase("ssau")){
+                if (password.equalsIgnoreCase("ssau")) {
                     //System.out.println("Client has enter right password");
                     Controller.log += "Client has enter right password\n";
                     out.writeBoolean(true);
                     isRightPasswordGet = true;
-                }
-                else{
+                } else {
                     Controller.log += "Access don't allow\n";
                     //System.out.println("Access don't allow");
                     out.writeBoolean(false);
@@ -44,11 +44,11 @@ public class MonoThreadClientHandler implements Runnable {
                 controller.refreshMsg(null);
             }
             String entry = "";
-            while(!client.isClosed() && !isQuit){
+            while (!client.isClosed() && !isQuit) {
                 entry = in.readUTF();
                 Controller.log += entry + '\n';
                 System.out.println(entry);
-                if(entry.equalsIgnoreCase("quit")){
+                if (entry.equalsIgnoreCase("quit")) {
                     Controller.log += "Client initialize connections suicide ...\n";
                     System.out.println("Client initialize connections suicide ...");
                     isQuit = true;

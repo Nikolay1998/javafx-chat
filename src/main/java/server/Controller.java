@@ -1,13 +1,11 @@
-package sample;
+package server;
 
 import javafx.event.ActionEvent;
-import javafx.fxml.Initializable;
-import javafx.scene.control.*;
-import javafx.scene.text.TextFlow;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.util.concurrent.Semaphore;
 
@@ -26,9 +24,9 @@ public class Controller {
         //System.out.println("Enter numbers of clients: ");
         byte[] count = cc.getText().getBytes();
         Semaphore sem = new Semaphore(3, true);
-        for(int i = 0; i < count[0]-48; i++){
+        for (int i = 0; i < count[0] - 48; i++) {
             Runtime.getRuntime().exec("java -jar " +
-                    "C:\\Users\\User\\IdeaProjects\\ClientFX\\out\\artifacts\\ClientFX\\ClientFX.jar");
+                    "target/client-jar-with-dependencies.jar");
             new Thread(new MonoThreadClientHandler(server.accept(), this, sem)).start();
         }
         create.setDisable(true);
